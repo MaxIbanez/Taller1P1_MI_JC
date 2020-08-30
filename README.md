@@ -9,4 +9,4 @@
 
 - Python 3
 
-Para utilizar el programa, deben tener instaldo Python 3 y si no, instalar Python 3 ->[Python3](https://www.python.org/ftp/python/3.8.5/python-3.8.5.exe)
+Para utilizar el programa, deben tener instalado Python 3 y si no es así, puedes descargar e instalar la ultima versión de Python 3 ->[Python3](https://www.python.org/ftp/python/3.8.5/python-3.8.5.exe)

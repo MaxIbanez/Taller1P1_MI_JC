@@ -100,7 +100,43 @@ class ProgramImc:
                 #mbox.showerror("Nombre inválido","El nombre ingresado no es válido")
                 return True
         return False
-    def IntefaceBuscar(self,ventana,nombre):
+    def ValidacionPeso(self,peso):
+        estado = False
+        aux = peso
+        if peso.count(",") == 1:
+            peso = peso.split(",")
+            peso = ".".join(peso)
+            estado = False
+            aux = peso
+        elif (peso.count(".") == 1):
+            estado = False
+            aux = peso
+        elif peso.count(",")>1 or peso.count(".")>1:
+            estado = True
+            aux = peso
+        return estado,peso
+
+    def ValidacionAltura(self,altura):
+        estado = False
+        aux = altura
+        if altura.count(",") == 1:
+            altura = altura.split(",")
+            altura = ".".join(altura)
+            aux = altura
+        elif (altura.count(".") == 1):
+            aux = altura
+        elif altura.count(",")>1 or altura.count(".")>1:
+            estado = True
+            aux = altura
+        return estado,aux
+
+    def CalculoIMC(self,datos):
+        peso = float(datos[0])
+        altura = float(datos[1])/100
+        imc = peso/(altura**2)
+        return imc
+
+    def IntefaceBuscar(self,ventana,dicc):
         fecha = tk.StringVar()
         peso = tk.StringVar()
         altura = tk.StringVar()
@@ -117,7 +153,7 @@ class ProgramImc:
         tk.Label(ventana,bg = color,text = "Altura (cm):").grid(row = 8,column = 1)
         tk.Entry(ventana,bd = 4,textvariable = altura).grid(row = 8,column = 2)
         tk.Label(ventana,bg = color,text = "ejemplos: 185 ó 160.5").grid(row = 8,column = 3)
-        tk.Button(ventana,bg = "#f77f00",text = "Confirmar", command = lambda: self.Upload2([fecha.get(),peso.get(),altura.get()],ventana) ).grid(row = 9, column = 2)
+        tk.Button(ventana,bg = "#f77f00",text = "Confirmar", command = lambda: self.Upload2([fecha.get(),peso.get(),altura.get()],dicc,ventana) ).grid(row = 9, column = 2)
     def BuscarUsuario(self,searchRUT, ventana):
         estado,rut = self.ValidacionRut(searchRUT)
         datos = []
@@ -142,17 +178,11 @@ class ProgramImc:
                     break
         if state == True:
             print("Ok, encontrado")
-            self.IntefaceBuscar(ventana,dicc["nombre"])
+            self.IntefaceBuscar(ventana,dicc)
 
         else:
             print("Oh ! no ay registros")
-            #mbox.showerror("No encontrado","No existen registros con ese RUT.")
-    
-    def Upload2(self,datos,ventana):
-        valid = [False, False, False]
-        print (datos)
-
-            
+            #mbox.showerror("No encontrado","No existen registros con ese RUT.")            
 
     def Upload1(self, datos,ventana):
         estados = [False, False, False,False,False]
@@ -184,6 +214,57 @@ class ProgramImc:
                 
         else:
             mbox.showerror("Datos erroneos","Los datos ingresados son erroneos o faltantes, favor revisar y editar los datos")
+    def FemeninoIMC(self,imc):
+        estado = ""
+        if imc<20:
+            estado = "BAJO PESO"
+        elif imc>19 and imc<23.95:
+            estado = "PESO NORMAL"
+        elif imc>23.94 and imc <28.95:
+            estado = "OBESIDAD LEVE"
+        elif imc>28.94 and imc < 38:
+            estado = "OBESIDAD SEVERA"
+        elif imc>37:
+            estado = "OBESIDAD MUY SEVERA"
+        return estado
+    def MasculinoIMC(self,imc):
+        estado = ""
+        if imc<20:
+            estado = "BAJO PESO"
+        elif imc>19 and imc<24.95:
+            estado = "PESO NORMAL"
+        elif imc>24.94 and imc <29.95:
+            estado = "OBESIDAD LEVE"
+        elif imc>29.94 and imc < 41:
+            estado = "OBESIDAD SEVERA"
+        elif imc>40:
+            estado = "OBESIDAD MUY SEVERA"
+        return estado
+
+
+    def Upload2(self,datos,dicc,ventana):
+        valid = [False, False, False]
+        valid[0] = self.ValidacionFecha(datos[0])
+        valid[1],peso = self.ValidacionPeso(datos[1])
+        valid[2],altura = self.ValidacionAltura(datos[2])
+        diagnostico = ""
+        frase = ""
+        if(valid.count(True) == 0):
+            imc = self.CalculoIMC([peso,altura])
+            if(dicc["sexo"] == "Femenino"):
+                diagnostico = self.FemeninoIMC(imc)
+                frase = "Estimada "+dicc["nombre"]+", su imc es de "+str(imc)[:4]+".\nSu estado físico es "+diagnostico+"."
+                mbox.showinfo("Estado de su IMC",frase)
+            else:
+                diagnostico = self.MasculinoIMC(imc)
+                frase = "Estimado "+dicc["nombre"]+", su imc es de "+str(imc)[:4]+".\nSu estado físico es "+diagnostico+"."
+                mbox.showinfo("Estado de su IMC",frase)
+        else:
+            mbox.showerror("Datos inválidos","Los datos ingresados son inválidos, intente nuevamente.")          
+            
+
+
+        print (datos)
 
     def Opcion1(self, ventana):
         c = 1

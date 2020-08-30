@@ -3,13 +3,11 @@ import tkinter as tk
 import tkinter.messagebox as mbox
 class ProgramImc:
     def __init__(self):
-        self.data = open("data","r+")
         self.opciones = ["Ingresar persona","Buscar persona","Listar IMC"]
         self.main = tk.Tk()
         self.Config()
         
         self.main.mainloop()
-        self.data.close()
     def Config(self):
         self.main.title("Bienvenido a la calculadora IMC")
         self.main.geometry("600x300")
@@ -25,8 +23,6 @@ class ProgramImc:
         tk.Button(self.main, text = opciones[0] ,command = lambda: self.Ventana(0) ,bg = color, height = h, width = w).place(x = 20, y = 50)
         tk.Button(self.main, text = opciones[1] ,command = lambda: self.Ventana(1)  ,bg = color, height = h, width = w).place(x = 220, y = 50)
         tk.Button(self.main, text = opciones[2] ,command = lambda: self.Ventana(2)  ,bg = color, height = h, width = w    ).place(x = 420 , y = 50)
-
-
     def Ventana(self,index):
         self.main.iconify()
         winChild = tk.Toplevel(self.main)
@@ -62,7 +58,7 @@ class ProgramImc:
                 estados.append(True)
             else:
                 estados.append(False)
-        if (ord(rut[len(rut)-1]) == 75 or ord(rut[len(rut)-1]) == 107 or (ord(rut[len(rut)-1])>47 and ord(rut[len(rut)-1])<58 )):
+        if (ord(rut[len(rut)-1]) == 75 or ord(rut[len(rut)-1]) == 107 or (ord(rut[len(rut)-1])>47 and ord(rut[len(rut)-1])<58 ) and (len(rut)>7 and len(rut)<13) ):
             estados.append(False)
         else:
             estados.append(True)
@@ -76,7 +72,7 @@ class ProgramImc:
             estate = True
         if rut.count("-")>1:
             estate = True
-        return estate
+        return estate,rut
     def ValidacionFecha(self,fecha):
         estado = False
         if len(fecha)== 10 or len(fecha)== 9:
@@ -104,17 +100,37 @@ class ProgramImc:
                 #mbox.showerror("Nombre inválido","El nombre ingresado no es válido")
                 return True
         return False
+    def BuscarUsuario(self,searchRUT, ventana):
+        estado,_ = self.ValidacionRut(searchRUT)
+        datos = []
+        if estado == True:
+            pass
+        else:
+            data = open("data","r+")
+            for item in data:
+                item = item.strip("\n")
+                item = item.strip("{").strip("}").split(",")
+                item = [i.split(":") for i in item]
+                print(item)
+                datos.append(item)
+            data.close()
+
+
 
     def Upload1(self, datos,ventana):
-        estados = [False, False, False]
+        estados = [False, False, False,False,False]
         #TRUE si hay errores
         estados[0] = self.ValidacionNombre(datos[0]) 
-        estados[1] = self.ValidacionRut(datos[1])
-        estados[2] = self.ValidacionFecha(datos[3])
+        estados[1],rut = self.ValidacionRut(datos[1])
+        estados[3] = self.ValidacionFecha(datos[3])
+        if datos[2] == "":
+            estados[2] = True
+        if datos[4] == "":
+            estados[4] = True
         dic = {}
         if estados.count(True) == 0:
             nombre = "Nombre: "+datos[0]+"\n"
-            rut = "RUT: "+datos[1]+"\n"
+            rut = "RUT: "+rut+"\n"
             sexo = "Sexo: "+datos[2]+"\n"
             fecha = "Fecha de Nacimiento: "+datos[3]+"\n"
             estadoDeportivo = "Estado deportivo: "+datos[4]+"\n"
@@ -122,18 +138,17 @@ class ProgramImc:
             frase = nombre+rut+sexo+fecha+estadoDeportivo+pregunta
             opc = mbox.askquestion("Confirmación de datos", frase,icon='warning')
             if opc == "yes":
-                dic["nombre"] = datos[0]
-                dic["rut"] = datos[1]
-                dic["sexo"] = datos[2]
-                dic["nacimiento"] = datos[3]
-                dic["estadoDeportivo"] = datos[4]
-                self.data.write(str(dic))
-                self.data.close()
-                self.data = open("data","r+")
+                mbox.showinfo("Confirmación","Los datos ingresados fueron guardados correctamente!")
+                data = open("data","r+")
+                aux = ["nombre:"+datos[0],"rut:"+datos[1],"sexo:"+datos[2],"nacimiento:"+datos[3],"estadoDeportivo:"+datos[4]]
+                aux = ",".join(aux)            
+                data.write(aux+"\n")
+                print (aux)
                 ventana.destroy()
                 self.main.deiconify()
+                
         else:
-            mbox.showerror("Datos erroneos","Los datos ingresados son erroneos, favor revisar y editar los datos")
+            mbox.showerror("Datos erroneos","Los datos ingresados son erroneos o faltantes, favor revisar y editar los datos")
 
     def Opcion1(self, ventana):
         c = 1
@@ -160,7 +175,12 @@ class ProgramImc:
         tk.Label(ventana,bg = color,text = "").grid(row = (len(data))+1,column = 2)
         tk.Button(ventana,bg = "#f77f00",text = "Confirmar", command = lambda: self.Upload1([item.get() for item in entryDatos],ventana)).grid(row = len(data)+2, column = 2)
     def Opcion2(self, ventana):
-        print("no recuerdo que iba acá (opción 2)")
+        color = "#eae7d7"
+        searchRUT = tk.StringVar()
+        tk.Label(ventana,bg = color,text ="\n\n\tIngresar Rut del\n\tusuario a buscar").grid(row = 2,column = 1)
+        tk.Label(ventana,bg = color,text ="\tRUT: ").grid(row = 3,column = 1)
+        tk.Entry(ventana,bd = 3,textvariable = searchRUT).grid(row = 3,column = 2)
+        tk.Button(ventana,bg = "#f77f00",text = "Confirmar", command = lambda:self.BuscarUsuario(searchRUT.get(), ventana)).grid(row = 4, column = 2)
     def Opcion3(self,ventana):
         print("NO RECUERDO QUE IBA ACÁ (opción 3)")
 

@@ -150,12 +150,12 @@ class ProgramImc:
                 tk.Label(ventana,bg = color,text = "").grid(row = (i+2),column = c+2)
             else:
                 tk.Label(ventana,bg = color,text ='%s\n'%(data[i])).grid(row = (i+1),column = c)
-                tk.Radiobutton(ventana, bg = color , text = "Femenino",variable = entryDatos[2], value = "Femenino", command = lambda:print(entryDatos[i].get())).place(x = 90, y = 75)
-                tk.Radiobutton(ventana, bg = color , text = "Masculino",variable = entryDatos[2], value = "Masculino", command = lambda:print(entryDatos[i].get())).place(x = 180, y = 75)
+                tk.Radiobutton(ventana, bg = color , text = "Femenino",variable = entryDatos[2], value = "Femenino").place(x = 90, y = 75)
+                tk.Radiobutton(ventana, bg = color , text = "Masculino",variable = entryDatos[2], value = "Masculino").place(x = 180, y = 75)
             if(i==4):
                 tk.Label(ventana,bg = color,text ='%s\n'%(data[i])).grid(row = (i+1),column = c)
-                tk.Radiobutton(ventana, bg = color , text = "Atleta",variable = entryDatos[4], value = "Atleta", command = lambda:print(entryDatos[i].get())).place(x = 110, y = 155)
-                tk.Radiobutton(ventana, bg = color , text = "Persona normal",variable = entryDatos[4], value = "P Normal", command = lambda:print(entryDatos[i].get())).place(x = 200, y = 155)
+                tk.Radiobutton(ventana, bg = color , text = "Atleta",variable = entryDatos[4], value = "Atleta").place(x = 110, y = 155)
+                tk.Radiobutton(ventana, bg = color , text = "Persona normal",variable = entryDatos[4], value = "P Normal").place(x = 200, y = 155)
 
         tk.Label(ventana,bg = color,text = "").grid(row = (len(data))+1,column = 2)
         tk.Button(ventana,bg = "#f77f00",text = "Confirmar", command = lambda: self.Upload1([item.get() for item in entryDatos],ventana)).grid(row = len(data)+2, column = 2)

@@ -135,7 +135,7 @@ class ProgramImc:
         imc = peso/(altura**2)
         return imc
 
-    def IntefaceBuscar(self,ventana,dicc):
+    def InterfaceBuscar(self,ventana,dicc):
         fecha = tk.StringVar()
         peso = tk.StringVar()
         altura = tk.StringVar()
@@ -177,7 +177,7 @@ class ProgramImc:
                     break
         if state == True:
             mbox.showinfo("Usuario encontrado","Ingresarán datos de "+dicc["nombre"]+".")
-            self.IntefaceBuscar(ventana,dicc)
+            self.InterfaceBuscar(ventana,dicc)
         else:
             mbox.showerror("No encontrado","Los datos ingresados no son válidos, favor revisar formulario.")      
 
@@ -255,13 +255,19 @@ class ProgramImc:
             else:
                 diagnostico = self.MasculinoIMC(imc)
                 frase = "Estimado "+dicc["nombre"]+", su imc es de "+str(imc)[:4]+".\nSu estado físico es "+diagnostico+"."
-                mbox.showinfo("Estado de su IMC",frase)
-
+                opc = mbox.askyesno("Estado de su IMC",frase+"\n\n¿Desea buscar a otra persona?")
+                if opc == True:
+                    ventana.destroy()
+                    self.Ventana(1)
+                else:
+                    ventana.destroy()
+                    self.main.deiconify()
             data = open("data.txt","a")
             guardar = dicc["rut"]+":"+datos[0]+":"+str(imc)[:4]+":"+diagnostico
             data.write(guardar+"\n")
             guardar = ""
             data.close()
+    
 
         else:
             mbox.showerror("Datos inválidos","Los datos ingresados son inválidos, intente nuevamente.")          

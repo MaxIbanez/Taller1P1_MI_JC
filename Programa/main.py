@@ -49,6 +49,8 @@ class ProgramImc:
     def ValidacionRut(self,rut):
         estate = True
         estados = []
+        if len(rut)==0:
+            return estate,rut
         for index in range(len(rut)-1):
             if(ord(rut[index])>0 and ord(rut[index])<45):
                 estados.append(True)
@@ -65,7 +67,7 @@ class ProgramImc:
         #print(estados)
         if (estados.count(True)>0):
             estate = True
-            mbox.showerror("Rut inválido","El RUT ingresado no es válido")
+            #mbox.showerror("Rut inválido","El RUT ingresado no es válido")
         else:
             estate = False
         if rut.count(".")>2:
@@ -83,14 +85,11 @@ class ProgramImc:
                         estado = False
                     else:
                         estado = True
-                        #mbox.showerror("Fecha inválida","La fecha ingresada no es válida")
                 else:
                     estado = True
-                    #mbox.showerror("Fecha inválida","La fecha ingresada no es válida")
 
             else:
                 estado = True
-                #mbox.showerror("Fecha inválida","La fecha ingresada no es válida")
         return estado
 
     def ValidacionNombre(self,nombre):
@@ -160,7 +159,7 @@ class ProgramImc:
         dicc = {}
         state = False
         if estado == True:
-            pass
+            pass 
         else:
             data = open("users.txt","r")
             for item in data:
@@ -177,11 +176,17 @@ class ProgramImc:
                     dicc = item
                     break
         if state == True:
+<<<<<<< HEAD
             mbox.showinfo("Usuario encontrado","Ingresarán datos de "+dicc["nombre"]+".")
+=======
+>>>>>>> update3
             self.IntefaceBuscar(ventana,dicc)
-
         else:
+<<<<<<< HEAD
             mbox.showerror("No encontrado","No existen registros con ese RUT.")            
+=======
+            mbox.showerror("No encontrado","Los datos ingresados no son válidos, favor revisar formulario.")      
+>>>>>>> update3
 
     def Upload1(self, datos,ventana):
         estados = [False, False, False,False,False]
@@ -258,13 +263,15 @@ class ProgramImc:
                 diagnostico = self.MasculinoIMC(imc)
                 frase = "Estimado "+dicc["nombre"]+", su imc es de "+str(imc)[:4]+".\nSu estado físico es "+diagnostico+"."
                 mbox.showinfo("Estado de su IMC",frase)
+
+            data = open("data.txt","a")
+            guardar = dicc["rut"]+":"+datos[0]+":"+str(imc)[:4]+":"+diagnostico
+            data.write(guardar+"\n")
+            guardar = ""
+            data.close()
+
         else:
             mbox.showerror("Datos inválidos","Los datos ingresados son inválidos, intente nuevamente.")          
-            
-
-
-        print (datos)
-
     def Opcion1(self, ventana):
         c = 1
         color = "#eae7d7"

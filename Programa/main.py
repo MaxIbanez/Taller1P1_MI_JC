@@ -177,12 +177,11 @@ class ProgramImc:
                     dicc = item
                     break
         if state == True:
-            print("Ok, encontrado")
+            mbox.showinfo("Usuario encontrado","Ingresarán datos de "+dicc["nombre"]+".")
             self.IntefaceBuscar(ventana,dicc)
 
         else:
-            print("Oh ! no ay registros")
-            #mbox.showerror("No encontrado","No existen registros con ese RUT.")            
+            mbox.showerror("No encontrado","No existen registros con ese RUT.")            
 
     def Upload1(self, datos,ventana):
         estados = [False, False, False,False,False]

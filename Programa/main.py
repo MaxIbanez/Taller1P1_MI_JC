@@ -100,11 +100,29 @@ class ProgramImc:
                 #mbox.showerror("Nombre inválido","El nombre ingresado no es válido")
                 return True
         return False
+    def IntefaceBuscar(self,ventana,nombre):
+        fecha = tk.StringVar()
+        peso = tk.IntVar()
+        altura = tk.IntVar()
+        color = "#eae7d7"
+        tk.Label(ventana,bg = color,text = " ").grid(row = 5,column = 1)
+        tk.Label(ventana,bg = color,text = "Fecha de nacimiento:").grid(row = 6,column = 1)
+        tk.Entry(ventana,bd = 4,textvariable = fecha).grid(row = 6,column = 2)
+        tk.Label(ventana,bg = color,text = "DD/MM/AAAA").grid(row = 6,column = 3)
+        #========================================================================
+        tk.Label(ventana,bg = color,text = "Peso (kilos):").grid(row = 7,column = 1)
+        tk.Entry(ventana,bd = 4,textvariable = peso).grid(row = 7,column = 2)
+        tk.Label(ventana,bg = color,text = "ejemplos: 60 ó 60.5").grid(row = 7,column = 3)
+        #========================================================================
+        tk.Label(ventana,bg = color,text = "Altura (cm):").grid(row = 8,column = 1)
+        tk.Entry(ventana,bd = 4,textvariable = altura).grid(row = 8,column = 2)
+        tk.Label(ventana,bg = color,text = "ejemplos: 185 ó 160.5").grid(row = 8,column = 3)
+        tk.Button(ventana,bg = "#f77f00",text = "Confirmar").grid(row = 9, column = 2)
     def BuscarUsuario(self,searchRUT, ventana):
-        estado,_ = self.ValidacionRut(searchRUT)
+        estado,rut = self.ValidacionRut(searchRUT)
         datos = []
         dicc = {}
-        print(estado)
+        state = False
         if estado == True:
             pass
         else:
@@ -117,7 +135,20 @@ class ProgramImc:
                 datos.append(dicc)
                 dicc = {}
             data.close()
-            print(datos)
+            for item in datos:
+                if item["rut"] == rut:
+                    state = True
+                    dicc = item
+                    break
+        if state == True:
+            print("Ok, encontrado")
+            self.IntefaceBuscar(ventana,dicc["nombre"])
+
+        else:
+            print("Oh ! no ay registros")
+            #mbox.showerror("No encontrado","No existen registros con ese RUT.")
+
+            
 
     def Upload1(self, datos,ventana):
         estados = [False, False, False,False,False]

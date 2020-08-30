@@ -114,7 +114,7 @@ class ProgramImc:
         elif peso.count(",")>1 or peso.count(".")>1:
             estado = True
             aux = peso
-        return estado,peso
+        return estado,aux
 
     def ValidacionAltura(self,altura):
         estado = False

@@ -103,19 +103,21 @@ class ProgramImc:
     def BuscarUsuario(self,searchRUT, ventana):
         estado,_ = self.ValidacionRut(searchRUT)
         datos = []
+        dicc = {}
+        print(estado)
         if estado == True:
             pass
         else:
-            data = open("data","r+")
+            data = open("users.txt","r")
             for item in data:
-                item = item.strip("\n")
-                item = item.strip("{").strip("}").split(",")
-                item = [i.split(":") for i in item]
-                print(item)
-                datos.append(item)
+                item = item.strip("\n").split(",")
+                for x in item:
+                    x = x.split(":")
+                    dicc[x[0]] = x[1]
+                datos.append(dicc)
+                dicc = {}
             data.close()
-
-
+            print(datos)
 
     def Upload1(self, datos,ventana):
         estados = [False, False, False,False,False]
@@ -127,7 +129,6 @@ class ProgramImc:
             estados[2] = True
         if datos[4] == "":
             estados[4] = True
-        dic = {}
         if estados.count(True) == 0:
             nombre = "Nombre: "+datos[0]+"\n"
             rut = "RUT: "+rut+"\n"
@@ -139,11 +140,10 @@ class ProgramImc:
             opc = mbox.askquestion("Confirmación de datos", frase,icon='warning')
             if opc == "yes":
                 mbox.showinfo("Confirmación","Los datos ingresados fueron guardados correctamente!")
-                data = open("data","r+")
+                data = open("users.txt","a")
                 aux = ["nombre:"+datos[0],"rut:"+datos[1],"sexo:"+datos[2],"nacimiento:"+datos[3],"estadoDeportivo:"+datos[4]]
                 aux = ",".join(aux)            
                 data.write(aux+"\n")
-                print (aux)
                 ventana.destroy()
                 self.main.deiconify()
                 

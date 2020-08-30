@@ -102,8 +102,8 @@ class ProgramImc:
         return False
     def IntefaceBuscar(self,ventana,nombre):
         fecha = tk.StringVar()
-        peso = tk.IntVar()
-        altura = tk.IntVar()
+        peso = tk.StringVar()
+        altura = tk.StringVar()
         color = "#eae7d7"
         tk.Label(ventana,bg = color,text = " ").grid(row = 5,column = 1)
         tk.Label(ventana,bg = color,text = "Fecha de nacimiento:").grid(row = 6,column = 1)
@@ -117,7 +117,7 @@ class ProgramImc:
         tk.Label(ventana,bg = color,text = "Altura (cm):").grid(row = 8,column = 1)
         tk.Entry(ventana,bd = 4,textvariable = altura).grid(row = 8,column = 2)
         tk.Label(ventana,bg = color,text = "ejemplos: 185 ó 160.5").grid(row = 8,column = 3)
-        tk.Button(ventana,bg = "#f77f00",text = "Confirmar").grid(row = 9, column = 2)
+        tk.Button(ventana,bg = "#f77f00",text = "Confirmar", command = lambda: self.Upload2([fecha.get(),peso.get(),altura.get()],ventana) ).grid(row = 9, column = 2)
     def BuscarUsuario(self,searchRUT, ventana):
         estado,rut = self.ValidacionRut(searchRUT)
         datos = []
@@ -147,6 +147,10 @@ class ProgramImc:
         else:
             print("Oh ! no ay registros")
             #mbox.showerror("No encontrado","No existen registros con ese RUT.")
+    
+    def Upload2(self,datos,ventana):
+        valid = [False, False, False]
+        print (datos)
 
             
 

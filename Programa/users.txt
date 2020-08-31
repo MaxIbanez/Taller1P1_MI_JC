@@ -1,0 +1,1 @@
+nombre:Maximiliano,rut:12345678-9,sexo:Masculino,nacimiento:02/02/1993,estadoDeportivo:P Normal

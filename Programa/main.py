@@ -269,8 +269,23 @@ class ProgramImc:
             data.close()
         else:
             mbox.showerror("Datos inválidos","Los datos ingresados son inválidos, intente nuevamente.")
+    def LeerUsuarios(self):
+        users = open("users.txt","r")
+        usuarios = {}
+        user = {}
+        for item in users:
+            item = item.strip("\n").split(",")
+            for caracteristica in item:
+                caracteristica = caracteristica.split(":")
+                user[caracteristica[0]] = caracteristica[1]
+            usuarios[user["rut"]] = user
+            user = {}
+        users.close()
+        return usuarios
+
     def Upload3(self,ventana,rut):
         data = open("data.txt","r")
+        usuarios = self.LeerUsuarios()
         dicc = []
         aux = {}
         for item in data:
@@ -283,11 +298,20 @@ class ProgramImc:
                 aux = {}
         data.close()
         state,rut = self.ValidacionRut(rut)
-        datosUsuario = []        
+        datosUsuario = []
+        listbox = tk.Listbox(ventana,width = 25)
+        tk.Label(ventana,bg = "#eae7d7",text = " "*20).grid(row = 2, column = 5)
         if(state == False):
             for item in dicc:
                 if item["rut"] == rut:
                     datosUsuario.append(item)
+            for item in range(len(datosUsuario)):
+                tk.Label(ventana,bg = "#eae7d7",text = "FECHA\t\tIMC").grid(row = 4, column = 5)   
+                mostrar = datosUsuario[item]["fecha"]+(" "*14)+datosUsuario[item]["imc"]
+                listbox.insert(item,mostrar)
+                aux = usuarios[rut]
+                tk.Label(ventana,bg = "#eae7d7",text = "Usuario: "+aux["nombre"]).grid(row = 2, column = 5)
+                listbox.grid(row = 5,column = 5)
         else:
             mbox.showerror("Datos inválidos","Los datos ingresados son inválidos, intente nuevamente.")
 

@@ -284,6 +284,21 @@ class ProgramImc:
         return usuarios
 
     def Upload3(self,ventana,rut):
+        def mostrar1(datosUsuario,usuarios):
+            listbox = tk.Listbox(ventana,width = 30,height = 20)
+            for item in range(len(datosUsuario)):
+                    tk.Label(ventana,bg = "#eae7d7",text = "FECHA\tIMC\tSEXO").grid(row = 4, column = 4)   
+                    mostrar = datosUsuario[item]["fecha"]+(" "*7)+datosUsuario[item]["imc"]+(" "*7)+usuarios[rut]["sexo"]
+                    listbox.insert(item,mostrar)
+            listbox.grid(row = 5,column = 4)
+        def mostrar2(datosUsuario,usuarios):
+            listbox = tk.Listbox(ventana,width = 30,height = 20)
+            for item in range(len(datosUsuario)):
+                    tk.Label(ventana,bg = "#eae7d7",text = "FECHA\tIMC\tEDAD").grid(row = 4, column = 4)   
+                    mostrar = datosUsuario[item]["fecha"]+(" "*7)+datosUsuario[item]["imc"]+(" "*7)+str(2020-int(usuarios[rut]["nacimiento"].split("/")[2]))
+                    listbox.insert(item,mostrar)
+            listbox.grid(row = 5,column = 4)
+        state = True
         data = open("data.txt","r")
         usuarios = self.LeerUsuarios()
         dicc = []
@@ -299,19 +314,17 @@ class ProgramImc:
         data.close()
         state,rut = self.ValidacionRut(rut)
         datosUsuario = []
-        listbox = tk.Listbox(ventana,width = 25)
+        
         tk.Label(ventana,bg = "#eae7d7",text = " "*20).grid(row = 2, column = 5)
         if(state == False):
             for item in dicc:
                 if item["rut"] == rut:
                     datosUsuario.append(item)
-            for item in range(len(datosUsuario)):
-                tk.Label(ventana,bg = "#eae7d7",text = "FECHA\t\tIMC").grid(row = 4, column = 5)   
-                mostrar = datosUsuario[item]["fecha"]+(" "*14)+datosUsuario[item]["imc"]
-                listbox.insert(item,mostrar)
-                aux = usuarios[rut]
-                tk.Label(ventana,bg = "#eae7d7",text = "Usuario: "+aux["nombre"]).grid(row = 2, column = 5)
-                listbox.grid(row = 5,column = 5)
+            tk.Label(ventana,bg = "#eae7d7",text = "Usuario: "+usuarios[rut]["nombre"]).grid(row = 1, column = 4)
+            tk.Button(ventana, bg = "#eae7d7" , text = "  IMC/Sexo  ", command = lambda: mostrar1(datosUsuario,usuarios)).place(x = 300,y = 40)
+            tk.Button(ventana, bg = "#eae7d7" , text = "IMC/Sexo/Edad", command = lambda: mostrar2(datosUsuario,usuarios)).place(x = 300,y = 70)
+            #aux = usuarios[rut]
+                
         else:
             mbox.showerror("Datos inválidos","Los datos ingresados son inválidos, intente nuevamente.")
 

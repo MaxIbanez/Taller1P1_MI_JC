@@ -295,7 +295,7 @@ class ProgramImc:
                     mostrar = datosUsuario[item]["fecha"]+(" "*7)+datosUsuario[item]["imc"]+(" "*7)+usuarios[rut]["sexo"]
                     listbox.insert(item,mostrar)
             listbox.grid(row = 5,column = 4)
-        def mostrar2(datosUsuario,usuarios,listbox):
+        def mostrar2(datosUsuario,usuarios):
             listbox = tk.Listbox(ventana,width = 30,height = 20)
             for item in range(len(datosUsuario)):
                     tk.Label(ventana,bg = "#eae7d7",text = "FECHA\tIMC\tEDAD").grid(row = 4, column = 4)   

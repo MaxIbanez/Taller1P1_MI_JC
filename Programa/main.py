@@ -83,12 +83,16 @@ class ProgramImc:
                 if(int(fecha[1])>0 and int(fecha[1])<13):
                     if(int(fecha[2])>0 and int(fecha[2])<2020):
                         estado = False
+                        mbox.showerror("ERROR","Problemas en la fecha")
                     else:
+                        mbox.showerror("ERROR","Problemas en la fecha")
                         estado = True
                 else:
+                    mbox.showerror("ERROR","Problemas en la fecha")
                     estado = True
 
             else:
+                mbox.showerror("ERROR","Problemas en la fecha")
                 estado = True
         return estado
 
@@ -291,7 +295,7 @@ class ProgramImc:
                     mostrar = datosUsuario[item]["fecha"]+(" "*7)+datosUsuario[item]["imc"]+(" "*7)+usuarios[rut]["sexo"]
                     listbox.insert(item,mostrar)
             listbox.grid(row = 5,column = 4)
-        def mostrar2(datosUsuario,usuarios):
+        def mostrar2(datosUsuario,usuarios,listbox):
             listbox = tk.Listbox(ventana,width = 30,height = 20)
             for item in range(len(datosUsuario)):
                     tk.Label(ventana,bg = "#eae7d7",text = "FECHA\tIMC\tEDAD").grid(row = 4, column = 4)   

@@ -83,16 +83,16 @@ class ProgramImc:
                 if(int(fecha[1])>0 and int(fecha[1])<13):
                     if(int(fecha[2])>0 and int(fecha[2])<2020):
                         estado = False
-                        mbox.showerror("ERROR","Problemas en la fecha")
+                        
                     else:
-                        mbox.showerror("ERROR","Problemas en la fecha")
+                        
                         estado = True
                 else:
-                    mbox.showerror("ERROR","Problemas en la fecha")
+                    
                     estado = True
 
             else:
-                mbox.showerror("ERROR","Problemas en la fecha")
+                
                 estado = True
         return estado
 

@@ -1,4 +1,0 @@
-nombre:Maximiliano,rut:12345678-9,sexo:Masculino,nacimiento:02/02/1993,estadoDeportivo:P Normal
-nombre:Javier,rut:98765432-1,sexo:Masculino,nacimiento:02/02/1998,estadoDeportivo:P Normal
-nombre:javier cabrera,rut:194672802,sexo:Masculino,nacimiento:17/02/1998,estadoDeportivo:P Normal
-nombre:javier,rut:194672802,sexo:Masculino,nacimiento:17/02/1998,estadoDeportivo:P Normal

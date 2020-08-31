@@ -141,7 +141,7 @@ class ProgramImc:
         altura = tk.StringVar()
         color = "#eae7d7"
         tk.Label(ventana,bg = color,text = " ").grid(row = 5,column = 1)
-        tk.Label(ventana,bg = color,text = "Fecha de nacimiento:").grid(row = 6,column = 1)
+        tk.Label(ventana,bg = color,text = "Fecha cuando se pesó:").grid(row = 6,column = 1)
         tk.Entry(ventana,bd = 4,textvariable = fecha).grid(row = 6,column = 2)
         tk.Label(ventana,bg = color,text = "DD/MM/AAAA").grid(row = 6,column = 3)
         #========================================================================
@@ -267,10 +267,31 @@ class ProgramImc:
             data.write(guardar+"\n")
             guardar = ""
             data.close()
-    
-
         else:
-            mbox.showerror("Datos inválidos","Los datos ingresados son inválidos, intente nuevamente.")          
+            mbox.showerror("Datos inválidos","Los datos ingresados son inválidos, intente nuevamente.")
+    def Upload3(self,ventana,rut):
+        data = open("data.txt","r")
+        dicc = []
+        aux = {}
+        for item in data:
+                item = item.strip("\n").split(":")
+                aux["rut"] = item[0]
+                aux["fecha"] = item[1]
+                aux["imc"] = item[2]
+                aux["descripcion"] = item[3]
+                dicc.append(aux)
+                aux = {}
+        data.close()
+        state,rut = self.ValidacionRut(rut)
+        datosUsuario = []        
+        if(state == False):
+            for item in dicc:
+                if item["rut"] == rut:
+                    datosUsuario.append(item)
+        else:
+            mbox.showerror("Datos inválidos","Los datos ingresados son inválidos, intente nuevamente.")
+
+
     def Opcion1(self, ventana):
         c = 1
         color = "#eae7d7"
@@ -303,6 +324,11 @@ class ProgramImc:
         tk.Entry(ventana,bd = 3,textvariable = searchRUT).grid(row = 3,column = 2)
         tk.Button(ventana,bg = "#f77f00",text = "Confirmar", command = lambda:self.BuscarUsuario(searchRUT.get(), ventana)).grid(row = 4, column = 2)
     def Opcion3(self,ventana):
-        print("NO RECUERDO QUE IBA ACÁ (opción 3)")
+        color = "#eae7d7"
+        searchRUT = tk.StringVar()
+        tk.Label(ventana,bg = color,text ="\n\n\tIngresar Rut del\n\tusuario a buscar").grid(row = 2,column = 1)
+        tk.Label(ventana,bg = color,text ="\tRUT: ").grid(row = 3,column = 1)
+        tk.Entry(ventana,bd = 3,textvariable = searchRUT).grid(row = 3,column = 2)
+        tk.Button(ventana,bg = "#f77f00",text = "Confirmar", command = lambda:self.Upload3(ventana,searchRUT.get()) ).grid(row = 4, column = 2)
 
 imc = ProgramImc()

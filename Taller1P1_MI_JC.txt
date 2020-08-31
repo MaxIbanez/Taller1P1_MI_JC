@@ -1,0 +1,11 @@
+El proyecto esta alojado en GitHub en el siguiente repositorio.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+https://github.com/MaxIbanez/Taller1P1_MI_JC.git
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Miembros de equipo: 
+		- Javier Cabrera Vejar
+		- Maximiliano Ibañez Molina
+
+Codigo de entrega :	f6c9b8d0-a410-4bc8-80bb-76fb98d1db30

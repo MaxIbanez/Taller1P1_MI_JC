@@ -10,4 +10,4 @@
 
 Para utilizar el programa, deben tener instalado Python 3 y si no es así, puedes descargar e instalar la ultima versión de Python 3 ->[Python3](https://www.python.org/ftp/python/3.8.5/python-3.8.5.exe)
 
-Para ejecutar el programa, se deben dirigir a la carpeta "Programa" y ejecutar main.py
+Para ejecutar el programa, se deben dirigir a la carpeta "Programa" y ejecutar main.py o abrirlo con un editor de texto.
